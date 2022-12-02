@@ -1,0 +1,25 @@
+1. created database-create database School
+
+2. created table and inserted some values using command like
+
+insert into Students values ('1','sandhya','rani','bandi','sandhya@gmail.com',' 1224567891');
+insert into Students values ('2','mounika','devi','guttula','mounika@gmail.com',' 1224569891');
+insert into Students values ('3','venkata','prasanna','gannavaram','prasanna@gmail.com',' 1224567890');
+
+3.update command using where clause-update Students set firstname='sai';
+
+4. update command without using where clause-update Students set firstname='sri' where rollno='1';
+
+5. equal to command-select * from Students where rollno='3';
+
+6. not equal to command-select * from Students where middlename<>'devi';
+
+7. greater than command-select * from Students where rollno>'2';
+ similarly lessthan,greaterthan or equalto, lessthan or equalto, and, or
+
+8. delete command using where clause-delete from Students where lastname='guttula';
+
+9. delete command without where clause-delete from Students;
+
+10.drop command-drop table Students;
+ 
