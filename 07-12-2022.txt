@@ -1,0 +1,36 @@
+--like operators
+
+select *from Employee where country='london' and Id>=2;
+select *from Employee where not country='london' and not Doj=2022;
+
+select *from Employee where country in ('india','uk','rjy');
+
+select *from Employee where Id between 3 and 5;
+
+select *from Employee where Email like 'v%';
+select *from Employee where Phoneno like '12%';
+
+select *from Employee where FirstName like '__s%';
+
+select *from Employee where LastName like 's[ar]%';
+
+select *from Employee where country like 'lo[^n]%';
+
+select *from Employee where FirstName like '_[a-e]%';
+
+--stored procedure
+CREATE PROCEDURE sp_get_Employee_info
+
+AS
+BEGIN
+select *from Employee;
+END
+
+execute sp_get_Employee_info;
+
+create PROCEDURE getEmpNameByEmpId(@EmpId int,@EmpName varchar(30) output)
+AS
+BEGIN
+select @EmpName=FirstName+ ' '+LastName from Employee where [Id]=@EmpId
+END;
+---still working on stored procedure---
