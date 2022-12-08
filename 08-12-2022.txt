@@ -1,0 +1,48 @@
+
+-- creating store procedure
+
+CREATE PROCEDURE procedure_name
+AS
+sql_statement
+GO;
+
+create procedure sp_Student
+as
+select SRn from Student where SName like '_[ro]%'
+go
+
+--running store procedure
+
+exec sp_Student
+
+--store procedure using single parameter
+
+CREATE PROCEDURE SelectAllCustomers @City nvarchar(30)
+AS
+SELECT * FROM Customers WHERE City = @City
+GO;
+
+create procedure Student_sp @SName varchar(30)
+as
+select * from Student where SName=@SName
+go
+
+exec Student_sp @SName='Sandhya';
+
+--store procedure using multiple procedure
+
+CREATE PROCEDURE SelectAllCustomers @City nvarchar(30), @PostalCode nvarchar(10)
+AS
+SELECT * FROM Customers WHERE City = @City AND PostalCode = @PostalCode
+GO;
+
+create procedure Stud @SName varchar(30), @Email varchar(30)
+as
+select *from Student where SName=@SName and Email=@Email
+go
+
+exec Stud @SName='Abhi', @Email='a@a.com';
+
+--drop store procedure
+
+drop procedure Stud
