@@ -1,0 +1,41 @@
+--using update
+
+ CREATE PROCEDURE modifyStudent @SName varchar(30)
+AS
+UPDATE Student SET SName = 'Satish thorati' WHERE SName = 'Satish'; 
+GO
+
+exec modifyStudent @SName='Satish'
+
+--using insert
+
+CREATE PROCEDURE insertStudent @SRn int,@SName varchar(30),@Email varchar(20),@Phoneno bigint
+AS
+insert into Student(SRn,SName,Email,Phoneno) values( @SRn,@SName,@Email,@Phoneno)
+GO
+
+exec insertStudent 17,'Hari','hari@gmail.com',9087651234
+
+--altering store procedure
+
+CREATE PROCEDURE modiStudent @SName varchar(30)
+AS
+UPDATE Student SET SName = 'Satish thorati' where SName='Prasanna gannavarapu'
+GO
+
+alter PROCEDURE modiStudent @SName varchar(30)
+AS
+UPDATE Student SET SName = 'Satish thorati' where Sname='Prasanna gannavarapu'
+update Student set SRn=SRn+1 where SName='Mounisha'
+GO
+
+exec modiStudent @SName=''
+
+--multiple parameters
+
+ CREATE PROCEDURE sp_multi_parameter @SName varchar(30), @Email varchar(30)
+AS
+SELECT * FROM Student WHERE SName = @SName and Email = @Email
+GO
+
+exec sp_multi_parameter @SName='Mounika', @Email='m@m.com';
