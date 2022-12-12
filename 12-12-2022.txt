@@ -1,0 +1,93 @@
+--user defined functions--
+
+--scalar function(returns single value)
+
+/*create function function_name(@ par1 datatype, @ par2 datatype,....)
+returns return _datatype
+as 
+begin
+--function body
+return return_datatype
+end*/
+
+--creating scalar function
+
+create function scalar_pass_fail(@TotalMarks int)
+returns char 
+as 
+begin   
+declare @pass_fail char
+if (@TotalMarks>250)
+begin 
+set @pass_fail='A'
+end 
+else if (@TotalMarks>=175 and @TotalMarks<250)
+begin
+set @pass_fail='B'
+end
+else 
+begin
+set @pass_fail='F'
+end
+return @pass_fail
+end
+select * ,dbo.scalar_pass_fail(TotalMarks) as grade from EducationDetail;
+
+--alter scalar function
+
+alter function scalar_pass_fail(@TotalMarks int)
+returns char 
+as 
+begin   
+declare @pass_fail char
+if (@TotalMarks>250)
+ set @pass_fail='A'
+else if (@TotalMarks>=175 and @TotalMarks<250)
+ set @pass_fail='B'
+else if (@TotalMarks>100 and @TotalMarks=175)
+ set @pass_fail='C'
+else 
+  set @pass_fail='F'
+return @pass_fail
+end
+
+--drop function
+
+drop function scalar_pass_fail
+
+--inline table valued functions(return a table)(there is no begin ans end block for inline functions)
+
+--creating a function 
+
+/*create function function_name(parameter list)
+returns table
+as
+return(statements)*/
+
+create function inline_pass_fail(@TotalMarks int)
+returns table 
+as 
+return (select *from EducationDetail where Avg>=@TotalMarks)
+
+--to call a function
+
+select *from inline_pass_fail(266)
+
+select *from inline_pass_fail (88)
+
+--altering a function
+
+alter function inline_pass_fail(@TotalMarks int)
+returns table 
+as 
+return (select *from EducationDetail where Subject3=@TotalMarks)
+
+select *from inline_pass_fail(87)
+
+--drop a function
+
+drop function inline_pass_fail
+
+--using join
+
+select Student.SName,EducationDetail.SRn,EducationDetail.Subject1,EducationDetail.Subject2,EducationDetail.Subject3,EducationDetail.Avg from EducationDetail join Student on Student.SRn=EducationDetail.SRn
