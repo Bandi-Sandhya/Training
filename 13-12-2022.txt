@@ -1,0 +1,57 @@
+--multi statement table valued function
+
+--creating multi statement tvf
+
+/*create function function_name()
+returns @variablename variabledatatype (columns columndatatype[structure of table])
+as
+begin 
+  inssert to @variable
+  statements
+  return
+end*/
+
+create function multi_pass_fail(@TotalMarks int)
+returns @table table (SRn int, TotalMarks smallint, Avg decimal)
+as
+begin
+ insert into @table
+ select SRn, TotalMarks, Avg from EducationDetail
+ return
+end
+
+select *from multi_pass_fail (1)
+ 
+ --drop a function
+
+ drop function multi_pass_fail
+
+--order by
+
+select *from Student order by SName asc
+
+select  *from Student order by Email desc,SName asc
+
+select Student.SName,EducationDetail.TotalMarks,EducationDetail.Avg from EducationDetail inner join Student on Student.SRn=EducationDetail.SRn order by SName
+
+--group by
+
+select count(SRn),Sname from Student  group by SName
+
+select max(TotalMarks),SRn from EducationDetail group by SRn
+
+select min(TotalMarks),SRn from EducationDetail group by SRn 
+
+select avg(TotalMarks) from EducationDetail group by TotalMarks;
+
+select  Student.SName,EducationDetail.Avg from EducationDetail inner join Student on Student.SRn=EducationDetail.SRn group by SName,Avg
+
+--having clause
+
+select max(TotalMarks),SRn from EducationDetail group by TotalMarks,SRn having max(TotalMarks)>276
+
+select TotalMarks,SRn from EducationDetail group by TotalMarks,SRn having (TotalMarks)>276
+
+select TotalMarks from EducationDetail group by TotalMarks having TotalMarks<266 order by Totalmarks asc;
+
+select  Student.SName,EducationDetail.Avg from EducationDetail inner join Student on Student.SRn=EducationDetail.SRn group by SName,Avg having Avg>86
