@@ -1,0 +1,81 @@
+--creating view
+
+create view ED as select SRn, TotalMarks, Avg from EducationDetail where Avg<89;
+
+--executing view
+
+select *from ED;
+
+create view SD as select SName,Email from Student where SRn<>13;
+ 
+ select *from SD
+
+ --view with join
+
+ create view Education as
+ select Subject1, Subject2, SName, Email from EducationDetail, Student where EducationDetail.SRn=Student.SRn
+
+ select *from EducationDetail
+
+ --alter a view
+ 
+ alter view ED as select SRn,TotalMarks from EducationDetail where Avg=89;
+
+ select * from ED
+
+ alter view SD as select SName ,Email ,Phoneno from Student where Srn>=10;
+
+ select *from SD
+
+ --drop a view
+
+ drop view SD
+
+ drop view ED
+
+ --insert into view
+
+ insert into ED values(22,275,89);
+
+ select * from ED
+
+ --delete a view
+
+ delete from ED where Avg=89;
+
+ select *from ED;
+
+ --update a view
+
+ update ED set TotalMarks=285 from EducationDetail;
+
+ --update ED set Avg=86 from EducationDetail where EducationDetail.SRn=8;
+
+ --is null and is not null operators
+
+select SRn,Subject1,Subject2,TotalMarks from EducationDetail where Subject1 is null and Subject2 is not null;
+
+select SRn,Subject1,Subject2,TotalMarks from EducationDetail where Subject1 is null and Subject2 is null;
+
+select SRn,Subject1,Subject2,TotalMarks from EducationDetail where Subject1 is null;
+
+--nullif function
+
+select nullif (Subject1,Subject2) from EducationDetail;
+
+select nullif (Subject1,Srn) from EducationDetail;
+
+--coalesce function
+
+select coalesce (SRn,Subject1,TotalMarks) from EducationDetail;
+
+select coalesce (null,null,TotalMarks) from EducationDetail;
+
+select coalesce (null,SName) from Student where SRn<=4;
+
+--isnull function
+
+select isnull(Subject1,SRn) from EducationDetail;
+
+select isnull (Subject3,TotalMarks) from EducationDetail where SRn=22;
+
