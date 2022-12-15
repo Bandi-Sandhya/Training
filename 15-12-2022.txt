@@ -1,0 +1,114 @@
+--union operator
+
+select SName, Email from Student union select SRn,Avg from EducationDetail;
+
+select SRn, SRn from Student union select Subject1,Subject2 from EducationDetail;
+
+--union all
+
+select SRn from Student union all select Subject1 from EducationDetail;
+
+--select SName,SRn from Student union all select Subject1,Subject2 from EducationDetail(doubt);
+
+--select Email, SName from Student union all  select SRn, Avg from EducationDetail(doubt)
+
+--any operator
+
+select SName,Email from Student where SRn=any (select SRn from EducationDetail where Avg=92); 
+
+select TotalMarks, Subject3,SRn from Educationdetail where SRn=any (select SRn from Student where Email='s@s.com');
+
+--all operator
+
+select SName,Email from Student where SRn=all (select SRn from EducationDetail where Avg=92); 
+
+select SRn,SName,Email from Student s where Srn=all(select Srn from EducationDetail e where s.SRn=e.SRn);
+
+--intersect
+/*select e.stud_roll_no,stud_Name,total from Students s left join Education_detail e on s.stud_Roll_NO=e.stud_Roll_NO 
+intersect 
+select e.stud_roll_no,stud_Name,total from Education_detail e right join Students s on e.stud_Roll_NO=s.stud_Roll_NO*/
+
+select e.SRn,SName,Email from Student s right join EducationDetail e on s.SRn=e.SRn
+intersect
+select e.SRn,SName,Email from EducationDetail e left join Student s on e.SRn=s.SRn 
+
+--except 
+
+select e.SRn,SName,Email from Student s right join EducationDetail e on s.SRn=e.SRn
+except
+select e.SRn,SName,Email from EducationDetail e left join Student s on e.SRn=s.SRn 
+
+--cast
+select cast(TotalMarks as varchar) from Educationdetail
+
+select cast (Doj as int) from Student;
+
+select cast (Doj as char) from Student;
+
+select cast(Doj as date)from Student;
+
+--convert
+
+select convert (int,Doj) from Student;
+
+select convert(Varchar,TotalMarks) from EducationDetail;
+
+--substrings
+
+select substring(SName,1,4) from Student;
+
+select substring(Email,1,2) from Student
+
+--practice q/a
+
+select *from Worker
+select *from Bonus
+select *from Title
+
+/*Q-1. Write an SQL query to fetch “FIRST_NAME” from Worker table using the alias name as <WORKER_NAME>.*/
+select FIRST_NAME from Worker as WORKER_NAME
+
+/*Q-2. Write an SQL query to fetch “FIRST_NAME” from Worker table in upper case.*/
+select upper(FIRST_NAME) from Worker 
+
+/*Q-3. Write an SQL query to fetch unique values of DEPARTMENT from Worker table.*/
+select distinct Department from Worker
+
+/*Q-4. Write an SQL query to print the first three characters of  FIRST_NAME from Worker table.*/
+select substring(FIRST_NAME,1,3) from Worker
+
+/*Q-5. Write an SQL query to find the position of the alphabet (‘a’) in the first name column ‘Amitabh’ from Worker table.*/
+
+
+/*Q-6. Write an SQL query to print the FIRST_NAME from Worker table after removing white spaces from the right side.*/
+select RTRIM(FIRST_NAME) from Worker;
+
+/*Q-7. Write an SQL query to print the DEPARTMENT from Worker table after removing white spaces from the left side.*/
+select LTRIM(DEPARTMENT) from Worker
+
+/*Q-8. Write an SQL query that fetches the unique values of DEPARTMENT from Worker table and prints its length.*/
+select distinct(DEPARTMENT),len(DEPARTMENT) from Worker;
+
+/*Q-9. Write an SQL query to print the FIRST_NAME from Worker table after replacing ‘a’ with ‘A’.*/
+select replace(FIRST_NAME,'a','A') from Worker 
+
+/*Q-10. Write an SQL query to print the FIRST_NAME and LAST_NAME from Worker table into a single column COMPLETE_NAME. A space char should separate them.*/
+select concat(FIRST_NAME,'',LAST_NAME) as COMPLETE_NAME from Worker
+
+/*Q-11. Write an SQL query to print all Worker details from the Worker table order by FIRST_NAME Ascending.*/
+select * from Worker order by FIRST_NAME asc;
+
+/*Q-12. Write an SQL query to print all Worker details from the Worker table order by FIRST_NAME Ascending and DEPARTMENT Descending.*/
+select * from Worker order by FIRST_NAME asc, DEPARTMENT desc;
+
+/*Q-13. Write an SQL query to print details for Workers with the first name as “Vipul” and “Satish” from Worker table.*/
+select *from Worker where FIRST_NAME in('Vipul','Satish');
+
+/*Q-14. Write an SQL query to print details of workers excluding first names, “Vipul” and “Satish” from Worker table.*/
+select *from Worker where FIRST_NAME not in ('Vipul','Satish');
+
+/*Q-15. Write an SQL query to print details of Workers with DEPARTMENT name as “Admin”.*/
+select *from Worker where DEPARTMENT='Admin';
+            
+select *from Worker where DEPARTMENT like 'A[d]%';
