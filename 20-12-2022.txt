@@ -1,0 +1,150 @@
+--bulk insert csv data into sql server table(query)
+
+select *from Student
+
+bulk insert Student 
+from 'D:\sql data\Student.txt'
+with 
+(
+rowterminator='\n',
+fieldterminator=','
+)
+
+use Practice
+
+bulk insert Employee
+from 'D:\sql data\Employee.txt'
+with 
+(
+rowterminator='\n',
+fieldterminator=','
+)
+select *from Employee
+
+--try and catch blocks
+
+Create TABLE Employee  
+(  
+Emp_IId Int identity(1,1),  
+First_Name Nvarchar(MAX) Not NUll,  
+Last_Name Nvarchar(MAX) Not Null,  
+Salary Int Not Null check(Salary>20000),  
+City Nvarchar(Max) Not Null  
+) 
+ 
+
+insert into Employee values ('Pankaj','Choudhary',25000,'Alwar' )
+
+insert into Employee values('Rahul','Prajapat',23000,'Alwar') 
+, ('Sandeep','Jangid',27000,'Alwar') 
+,( 'Sanjeev','Baldia',24000,'Alwar')   
+,( 'Neeraj','Saini',22000,'Alwar' ) 
+,('Narendra','Sharma',23000,'Alwar' )  
+,('Divyanshu','Gupta',25000,'Alwar'  ) 
+
+Select * From Employee  
+
+--error 1
+
+Update Employee set Salary=19000 Where Emp_IID=5  
+IF @@ERROR = 547  
+PRINT 'A check constraint violation occurred.';  
+
+--error 2
+
+BEGIN TRY  
+  
+Update Employee set Salary=19000 Where Emp_IID=5  
+END TRY  
+BEGIN CATCH  
+SELECT ERROR_NUMBER() AS ErrorNumber;  
+END CATCH;  
+GO  
+
+ # BEGIN TRY  
+  
+Update Employee set Salary=19000 Where Emp_IID=5  
+END TRY  
+BEGIN CATCH  
+  
+SELECT ERROR_NUMBER() AS ErrorNumber;  
+print @@ERROR  
+END CATCH;  
+GO 
+
+ # BEGIN TRY  
+  
+Update Employee set Salary=19000 Where Emp_IID=5  
+END TRY  
+BEGIN CATCH  
+print @@ERROR  
+SELECT ERROR_NUMBER() AS ErrorNumber;  
+  
+END CATCH;  
+GO  
+
+--error 3
+
+BEGIN TRY  
+  
+Update Employee set Salary=19000 Where Emp_IID=5  
+END TRY  
+BEGIN CATCH  
+SELECT ERROR_MESSAGE() AS ErrorMsg;  
+  
+END CATCH;  
+GO
+
+--error 4
+
+BEGIN TRY  
+  
+SELECT SALARY + First_Name From Employee Where Emp_IID=5  
+END TRY  
+BEGIN CATCH  
+SELECT ERROR_STATE() AS ErrorState , ERROR_MESSAGE() ErrorMsg ;  
+END CATCH;  
+GO  
+
+--error 5
+
+BEGIN TRY  
+SELECT SALARY + First_Name From Employee Where Emp_IID=5  
+END TRY  
+BEGIN CATCH  
+SELECT ERROR_STATE() AS ErrorLine;  
+END CATCH;  
+GO  
+
+--error 6
+
+Create Procedure My_Proc  
+AS  
+begin  
+BEGIN TRY  
+SELECT SALARY + First_Name From Employee Where Emp_IID=5  
+END TRY  
+BEGIN CATCH  
+SELECT ERROR_PROCEDURE() AS ProcName;  
+END CATCH;  
+END 
+
+Exec My_Proc  
+
+--error 7
+
+BEGIN TRY  
+SELECT SALARY + First_Name From Employee Where Emp_IID=5  
+END TRY  
+BEGIN CATCH  
+SELECT ERROR_SEVERITY() AS ErrorSeverity;  
+END CATCH;  
+
+--error 8
+
+BEGIN TRY  
+SELECT SALARY + First_Name From Employee Where Emp_IID=5  
+END TRY  
+BEGIN CATCH  
+RAISERROR(N'An Error Is Occur',16,3);  
+END CATCH;  
